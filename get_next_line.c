@@ -13,8 +13,10 @@ int		get_next_line(const int fd, char **line)
 	while ((count = (read(fd, buff, BUFF_SIZE)) > 0))	//count bytes read
 	{												//might be diff vs BUFF_SIZE
 		buff[count] = '\0';		//set last to null
+		if (ft_strchr((cost)buff, 10) == NULL)
+			break;
 		tmp = ft_strdup(buff);	//duplicate buff to tmp
-		if ((pos = ft_strchr((const)tmp, 10)))	//& is returned if true
+		if (!(pos = ft_strchr((const)tmp, 10)))	//& is returned if true
 			break;
 		else
 			ft_strjoin(, tmp);

@@ -4,25 +4,23 @@
 int		get_next_line(const int fd, char **line)
 {
 	int				count;
-	char			*pos;
-	char			*tmp;
-	static char		buff[BUFF_SIZE + 1];
+	char			tmp[BUFF_SIZE + 1];
+	static char		*buff;
 
-	if (fd == -1)
+	if (fd == -1 || !(buff = ft_memalloc(BUFF_SIZE)))
 		return (-1);
-	while ((count = (read(fd, buff, BUFF_SIZE)) > 0))	//count bytes read
+	while (count = (read(fd, tmp, BUFF_SIZE) > 0))	//count bytes read
 	{												//might be diff vs BUFF_SIZE
-		buff[count] = '\0';		//set last to null
-		if (ft_strchr((cost)buff, 10) == NULL)
+		tmp[count] = '\0';		//set last to null
+		if (ft_strchr(const)tmp, 10 != NULL)
 			break;
-		tmp = ft_strdup(buff);	//duplicate buff to tmp
-		if (!(pos = ft_strchr((const)tmp, 10)))	//& is returned if true
-			break;
-		else
-			ft_strjoin(, tmp);
-		free(tmp);
+		if (ft_strcmp(tmp, buff) != 0)
+			buff = ft_strdup(tmp);	//duplicate buff to tmp
+		if (!buff)
+			return (-1);
+		ft_memalloc(tmp);		//clear tmp
 	}
-	&line = ft_strdup(buff);
+	&line = ft_strdup(tmp);
 	free(tmp);
 	return (1);
 }

@@ -16,6 +16,11 @@ typedef struct		s_list
 
 int		get_next_line(const int fd, char **line);
 
-char	*ft_strcpy(char *dst, const char *src);
+char	*ft_strdup(const char *s1);
+size_t	ft_strlen(const char *s);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strchr(const char *s, int c);
+void	*ft_memalloc(size_t size);
+void	*ft_memccpy(void *dst, const void *src, int c, size_t n);
 
 #endif

@@ -1,7 +1,9 @@
-#ifndef getnextline_h
-# define getnextline_h
+#ifndef get_nextline_h
+# define get_nextline_h
 
 #define BUFF_SIZE 1
+
+#include <stdio.h>
 
 # include <unistd.h>		//for write
 # include <stdlib.h>		//for malloc + free
@@ -22,5 +24,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
 void	*ft_memalloc(size_t size);
 void	*ft_memccpy(void *dst, const void *src, int c, size_t n);
+char	*ft_strsub(char const *s, unsigned int start, size_t len);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

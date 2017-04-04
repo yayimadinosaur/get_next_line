@@ -22,9 +22,16 @@ char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
-void	*ft_memalloc(size_t size);
+//void	*ft_memalloc(size_t size);
 void	*ft_memccpy(void *dst, const void *src, int c, size_t n);
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
 int		ft_strcmp(const char *s1, const char *s2);
+void	ft_strclr(char *s);
 
+/*
+ *	custom functions
+ */
+
+int		ft_ptrlen(char *s1, char *s2);
+char	*ft_cpychr(char *str, int c, int len);
 #endif

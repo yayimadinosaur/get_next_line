@@ -1,6 +1,36 @@
 
 #include "get_next_line.h"
 
+int		ft_ptrlen(char *s1, char *s2)
+{
+	int		i;
+
+	i = 0;
+	while (*s1 != *s2)
+	{
+		*s1++;
+		i++;
+	}
+	return (i);
+}
+
+char	*ft_cpychr(char *str, int c, int len)
+{
+	int		i;
+	char	*buff;
+
+	i = 0;
+	if (!(buff = (char*)malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	while (str[i] != (char)c && i < len)
+	{
+		buff[i] = str[i];
+		i++;
+	}
+	buff[len + 1] = '\0';
+	return (buff);
+}
+
 int		get_next_line(const int fd, char **line)
 {
 	int				count;
@@ -16,21 +46,22 @@ int		get_next_line(const int fd, char **line)
 	while ((count = (read(fd, tmp, BUFF_SIZE) > 0)))	//count bytes read
 	{												//might be diff vs BUFF_SIZE
 		tmp[count] = '\0';
-		printf("read_attempt = [%i] count = [%i]\ntmp = %s\n", read_attempt, count, tmp);
-		buff == NULL ? buff = ft_strdup((const char*)tmp) : (buff = ft_strjoin((const char*)buff, (const char*)tmp));
+		printf("read_attempt = [%i] count = [%i]\ntmp = [%s]\n", read_attempt, count, tmp);
+		buff == NULL ? (buff = ft_strdup(tmp)) : (buff = ft_strjoin(buff, tmp));
 		if (!buff)
 			return (-1);
 		printf("buff str = [%s]\n", buff);
 		if (ft_strchr(buff, 10) != NULL)
+		{
+			printf("newline found in buff!\n");
 			break;
-		printf("AA\n");
-		char *s = ft_memalloc((size_t)tmp);		//clear tmp		//DONT PUT DIFF TYPES AS INPUT
-		printf("BB\n");
+		}
+		ft_strclr(tmp);		//clear tmp		//DONT PUT DIFF TYPES AS INPUT
 		read_attempt++;
 	}
 	printf("finished reading inside GNL\n");
-/*	free(tmp);
-	ft_memccpy(&line, buff, 10, ft_strlen(buff));
+	free(tmp);
+/*	ft_memccpy(&line, buff, 10, ft_strlen(buff));
 	tmp = ft_memalloc((size_t));
 	tmp = ft_strsub(buff, ft_strcmp(buff, *line), ft_strlen(buff) - ft_strcmp(buff, *line));
 	if (!tmp)
@@ -39,7 +70,5 @@ int		get_next_line(const int fd, char **line)
 		return (-1);
 //	free(tmp);
 	printf("line str = [%s]\n", *line);
-	if (count == 0)
-		return (0);
 	return (1);
 }

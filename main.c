@@ -17,7 +17,7 @@ int		main(int ac, char **av)
 		fd_test = open(av[1], O_RDONLY);
 		while (get_next_line(fd_test, &store) == 1)
 		{
-			printf("nextline # = [%i]\n", gnl_call);
+			printf("getnextline call # = [%i]\n", gnl_call);
 			gnl_call++;
 		}	
 		close(fd_test);

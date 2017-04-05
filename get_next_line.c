@@ -23,6 +23,8 @@ char	*ft_cpychr(char *str, int c, int len)
 	char	*buff;
 
 	i = 0;
+	if (str == NULL)
+		return (NULL);
 	if (!(buff = (char*)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	while (str[i] != (char)c && i < len)
@@ -71,15 +73,5 @@ int		get_next_line(const int fd, char **line)
 		return (-1);
 	printf("line = %s\n", *line);
 	printf("finished reading inside GNL\n");
-/*	ft_memccpy(&line, buff, 10, ft_strlen(buff));
-	tmp = ft_memalloc((size_t));
-	tmp = ft_strsub(buff, ft_strcmp(buff, *line), ft_strlen(buff) - ft_strcmp(buff, *line));
-	if (!tmp)
-		return (-1);
-	if (!(buff = ft_strdup(tmp)))
-		return (-1);
-	free(tmp);
-	printf("line str = [%s]\n", *line);
-	free(next);
-*/	return (1);
+	return (1);
 }

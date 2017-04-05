@@ -19,7 +19,8 @@ int		main(int ac, char **av)
 		{
 			printf("getnextline call # = [%i]\n", gnl_call);
 			gnl_call++;
-		}	
+		}
+		printf("main - finished reading\n");
 		close(fd_test);
 		i = 0;		//reset i
 	/*	while (store != 0)	//print store

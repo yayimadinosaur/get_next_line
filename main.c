@@ -22,7 +22,7 @@ int		main(int ac, char **av)
 		}	
 		close(fd_test);
 		i = 0;		//reset i
-		while (store != 0)	//print store
+	/*	while (store != 0)	//print store
 		{
 			printf("testing line str = %s\n", store);
 			i++;
@@ -32,6 +32,8 @@ int		main(int ac, char **av)
 			free(store);
 			i--;
 		}
+*/
+		free(store);
 	}
 	else
 		printf("not enough args\n");

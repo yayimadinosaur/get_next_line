@@ -32,6 +32,6 @@ void	ft_strclr(char *s);
  *	custom functions
  */
 
-int		ft_ptrlen(char *s1, char *s2);
+int		ft_ptrlen(char *p1, char *p2);
 char	*ft_cpychr(char *str, int c, int len);
 #endif

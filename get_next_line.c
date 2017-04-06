@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/05 17:23:03 by wfung             #+#    #+#             */
+/*   Updated: 2017/04/05 18:23:26 by wfung            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		ft_ptrlen(char *p1, char *p2)
+int		ft_ptrlen(char *p1, char *p2, int len)
 {
 	int		i;
 	char	*buff;
 
 	i = 0;
 	buff = p1;
-	while (buff != p2)
+	while (buff != p2 && i < len)
 	{
 		printf("ptrlen = %i\n", i);
 		buff++;
@@ -51,7 +62,7 @@ int		get_next_line(const int fd, char **line)
 		return (-1);
 	read_attempt = 1;
 	printf("inside GNL; about to start\n");
-	while ((count = (read(fd, tmp, BUFF_SIZE) > 0)))	//count bytes read
+	while ((count = read(fd, tmp, BUFF_SIZE)) > 0)	//count bytes read
 	{												//might be diff vs BUFF_SIZE
 		tmp[count] = '\0';
 		printf("read_attempt = [%i] count = [%i]\ntmp = [%s]\n", read_attempt, count, tmp);
@@ -69,7 +80,7 @@ int		get_next_line(const int fd, char **line)
 		read_attempt++;
 	}
 //	free(tmp);
-	if (!(*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next))))
+	if (!(*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff)))))
 		return (-1);
 	printf("line = %s\n", *line);
 	printf("finished reading inside GNL\n");

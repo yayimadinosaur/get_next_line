@@ -1,13 +1,13 @@
 #ifndef get_nextline_h
 # define get_nextline_h
 
-#define BUFF_SIZE 1
+#define BUFF_SIZE 20
 
 #include <stdio.h>
 
 # include <unistd.h>		//for write
 # include <stdlib.h>		//for malloc + free
-# include <sys/uio.h>		//for read
+# include <fcntl.h>		//for read
 
 //if using linkedlist for GNL
 typedef struct		s_list
@@ -32,6 +32,6 @@ void	ft_strclr(char *s);
  *	custom functions
  */
 
-int		ft_ptrlen(char *p1, char *p2);
+int		ft_ptrlen(char *p1, char *p2, int len);
 char	*ft_cpychr(char *str, int c, int len);
 #endif

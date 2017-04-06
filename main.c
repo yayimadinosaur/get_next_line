@@ -1,13 +1,10 @@
-#include <fcntl.h>		//to use OPEN for FD
-#include <stdio.h>		//to use PRINTF
-
 #include "get_next_line.h"
 
 int		main(int ac, char **av)
 {
 	int		fd_test;
 	int		i;
-	char	*store;
+	char	*line;
 	int		gnl_call;
 
 	i = 0;
@@ -15,7 +12,7 @@ int		main(int ac, char **av)
 	if (ac == 2)		//handling only 1 fd
 	{
 		fd_test = open(av[1], O_RDONLY);
-		while (get_next_line(fd_test, &store) == 1)
+		while (get_next_line(fd_test, &line) == 1)
 		{
 			printf("getnextline call # = [%i]\n", gnl_call);
 			gnl_call++;
@@ -34,7 +31,7 @@ int		main(int ac, char **av)
 			i--;
 		}
 */
-		free(store);
+		free(line);
 	}
 	else
 		printf("not enough args\n");

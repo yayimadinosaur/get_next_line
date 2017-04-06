@@ -3,11 +3,9 @@
 int		main(int ac, char **av)
 {
 	int		fd_test;
-	int		i;
 	char	*line;
 	int		gnl_call;
 
-	i = 0;
 	gnl_call = 1;
 	if (ac == 2)		//handling only 1 fd
 	{
@@ -15,14 +13,14 @@ int		main(int ac, char **av)
 		while (get_next_line(fd_test, &line) == 1)
 		{
 			printf("getnextline call # = [%i]\n", gnl_call);
+			printf("main line str = %s\n", line);
 			gnl_call++;
 		}
 		printf("main - finished reading\n");
 		close(fd_test);
-		i = 0;		//reset i
-	/*	while (store != 0)	//print store
+	/*	while (line != 0)	//print store
 		{
-			printf("testing line str = %s\n", store);
+			printf("testing line str = %s\n", line);
 			i++;
 		}
 		while (i > -1)			//free stores

@@ -6,7 +6,7 @@
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 17:23:03 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/05 18:23:26 by wfung            ###   ########.fr       */
+/*   Updated: 2017/04/05 19:29:45 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,23 @@ int		get_next_line(const int fd, char **line)
 		ft_strclr(tmp);		//clear tmp		//DONT PUT DIFF TYPES AS INPUT
 		read_attempt++;
 	}
-//	free(tmp);
-	if (!(*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff)))))
+	printf("---------------------------COUNT IS %i\n", count);
+/*	if (read(fd, tmp, BUFF_SIZE) == 0)
+	{
+		if (!(*line = ft_strdup(buff)))
+			return (-1);
+		return (0);
+	}
+*/	if (!(*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff)))))
+	{
+		printf("GNL failed copy chr\n");
 		return (-1);
+	}
+	if (count == 0)
+	{
+		printf("COUNT IS BLANK TEST\n");
+		return (0);
+	}
 	printf("line = %s\n", *line);
 	printf("finished reading inside GNL\n");
 	return (1);

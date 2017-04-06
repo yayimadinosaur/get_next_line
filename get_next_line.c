@@ -6,7 +6,7 @@
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 17:23:03 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/05 19:29:45 by wfung            ###   ########.fr       */
+/*   Updated: 2017/04/06 16:38:42 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ int		ft_ptrlen(char *p1, char *p2, int len)
 
 	i = 0;
 	buff = p1;
+	printf("started ptrlen\n");
+	if (len == 0)
+		return (0);
 	while (buff != p2 && i < len)
 	{
 		printf("ptrlen = %i\n", i);
@@ -34,6 +37,7 @@ char	*ft_cpychr(char *str, int c, int len)
 	char	*buff;
 
 	i = 0;
+	printf("started cpychr\n");
 	if (str == NULL)
 		return (NULL);
 	if (!(buff = (char*)malloc(sizeof(char) * (len + 1))))
@@ -65,7 +69,7 @@ int		get_next_line(const int fd, char **line)
 	while ((count = read(fd, tmp, BUFF_SIZE)) > 0)	//count bytes read
 	{												//might be diff vs BUFF_SIZE
 		tmp[count] = '\0';
-		printf("read_attempt = [%i] count = [%i]\ntmp = [%s]\n", read_attempt, count, tmp);
+		printf("read_attempt = [%i] BUFF_SIZE = [%i] count = [%i]\ntmp = [%s]\n", read_attempt, BUFF_SIZE, count, tmp);
 		buff == NULL ? (buff = ft_strdup(tmp)) : (buff = ft_strjoin(buff, tmp));
 		if (!buff)
 			return (-1);
@@ -80,23 +84,12 @@ int		get_next_line(const int fd, char **line)
 		read_attempt++;
 	}
 	printf("---------------------------COUNT IS %i\n", count);
-/*	if (read(fd, tmp, BUFF_SIZE) == 0)
-	{
-		if (!(*line = ft_strdup(buff)))
-			return (-1);
-		return (0);
-	}
-*/	if (!(*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff)))))
-	{
-		printf("GNL failed copy chr\n");
-		return (-1);
-	}
 	if (count == 0)
-	{
-		printf("COUNT IS BLANK TEST\n");
 		return (0);
-	}
-	printf("line = %s\n", *line);
+	if (!(*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff)))))
+		return (-1);
+	printf("gnl count checked\n");
+	printf("-----------------------------GNL saved line = [%s]\n", *line);
 	printf("finished reading inside GNL\n");
 	return (1);
 }

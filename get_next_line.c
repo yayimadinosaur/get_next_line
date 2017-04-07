@@ -6,7 +6,7 @@
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 17:23:03 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/06 16:38:42 by wfung            ###   ########.fr       */
+/*   Updated: 2017/04/06 17:45:34 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,15 @@ int		get_next_line(const int fd, char **line)
 		read_attempt++;
 	}
 	printf("---------------------------COUNT IS %i\n", count);
-	if (count == 0)
+/*	if (count == 0)
+	{
+		*line = ft_strchr(next, 
+		printf("GNL count == 0 buff == NULL\n");
 		return (0);
-	if (!(*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff)))))
+	}
+*/	if (!(*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff)))))
 		return (-1);
+	free(buff);
 	printf("gnl count checked\n");
 	printf("-----------------------------GNL saved line = [%s]\n", *line);
 	printf("finished reading inside GNL\n");

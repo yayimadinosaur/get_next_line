@@ -27,7 +27,7 @@ void	*ft_memccpy(void *dst, const void *src, int c, size_t n);
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_strclr(char *s);
-
+char	*ft_strstr(const char *bif, const char *little);
 /*
  *	custom functions
  */

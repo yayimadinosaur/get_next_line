@@ -10,11 +10,12 @@ int		main(int ac, char **av)
 	if (ac == 2)		//handling only 1 fd
 	{
 		fd_test = open(av[1], O_RDONLY);
-		printf("start GNL ft\n");
 		while (get_next_line(fd_test, &line) != 0)
 		{
 			printf("getnextline call # = [%i]\n", gnl_call);
-			printf("main line str = %s\n", line);
+			if (gnl_call == 6)
+				break;
+			printf("-----------------------------main line str = [%s]\n", line);
 			gnl_call++;
 		}
 		printf("----------------------GNL SUCCESS! last str = [%s]\n", line);

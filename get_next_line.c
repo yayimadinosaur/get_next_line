@@ -83,7 +83,7 @@ int		get_next_line(const int fd, char **line)
 	}
 	next = ft_strchr(buff, 10);
 //	printf("---------out while------------------COUNT IS %i\n", count);
-	printf("before moving ptrs buff = [%s] next = [%s]\n", next, buff);
+	printf("before moving ptrs buff = [%s] next = [%s]\n", buff, next);
 	(next != NULL) ? (*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff))))
 		: (*line = ft_strdup(buff));
 	(next != NULL) ? (buff = next + 1) : (buff = next);

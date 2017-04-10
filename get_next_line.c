@@ -71,7 +71,10 @@ int		get_next_line(const int fd, char **line)
 //		printf("read_attempt = [%i] BUFF_SIZE = [%i] count = [%i]\ntmp = [%s]\n", read_attempt, BUFF_SIZE, count, tmp);
 		buff == NULL ? (buff = ft_strdup(tmp)) : (buff = ft_strjoin(buff, tmp));
 		if (!buff)
+		{
+			free(buff);
 			return (-1);
+		}
 //		printf("buff str = [%s]\n", buff);
 /*		if ((next = ft_strchr(buff, 10)) != NULL)
 		{
@@ -84,12 +87,17 @@ int		get_next_line(const int fd, char **line)
 	next = ft_strchr(buff, 10);
 //	printf("---------out while------------------COUNT IS %i\n", count);
 	printf("before moving ptrs buff = [%s] next = [%s]\n", buff, next);
+	free(buff);
 	(next != NULL) ? (*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff))))
-		: (*line = ft_strdup(buff));
+		:(*line = ft_strdup(buff));
+	if (!*line)
+	{
+		free(*line);
+		return (-1);
+	}
 	(next != NULL) ? (buff = next + 1) : (buff = next);
 	if (buff == NULL)
 	{
-		free(buff);
 		*line = NULL;
 		return (0);
 	}

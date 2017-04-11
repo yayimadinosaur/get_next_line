@@ -6,7 +6,7 @@
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 17:23:03 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/11 08:20:39 by wfung            ###   ########.fr       */
+/*   Updated: 2017/04/11 15:50:31 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@ int		ft_ptrlen(char *p1, char *p2, int len)
 
 	i = 0;
 	buff = p1;
-	printf("started ptrlen\n");
 	if (len == 0)
 		return (0);
 	while (buff != p2 && i < len)
 	{
-//		printf("ptrlen = %i buff = [%c] next = [%c]\n", i, *buff, *p2);
 		buff++;
 		i++;
 	}
@@ -37,14 +35,12 @@ char	*ft_cpychr(char *str, int c, int len)
 	char	*buff;
 
 	i = 0;
-	printf("started cpychr\n");
 	if (str == NULL)
 		return (NULL);
 	if (!(buff = (char*)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	while (str[i] != (char)c && i < len)
 	{
-//		printf("copying buff %i str %i\n", i, i);
 		buff[i] = str[i];
 		i++;
 	}
@@ -56,45 +52,29 @@ int		get_next_line(const int fd, char **line)
 {
 	int				count;
 	char			tmp[BUFF_SIZE + 1];
-	static char		buff[1000];
-//	int				read_attempt;	//for testing purposes
+	static char		*buff;
 	char			*next;
-	char			*head;
+//	char			*head;
 
 	next = NULL;
-	if (fd < 0 || !line)//|| !(tmp = ft_memalloc((size_t)BUFF_SIZE + 1)))
+	if (fd < 0 || !line || BUFF_SIZE <= 0)
 		return (-1);
-//	read_attempt = 1;
-//	printf("inside GNL; about to start\n");
-	head[fd] = buff[fd];
-	while ((count = read(fd, tmp, BUFF_SIZE)) > 0)	//count bytes read
-	{												//might be diff vs BUFF_SIZE
+	while ((count = read(fd, tmp, BUFF_SIZE)) > 0)
+	{
 		tmp[count] = '\0';
-//		printf("read_attempt = [%i] BUFF_SIZE = [%i] count = [%i]\ntmp = [%s]\n", read_attempt, BUFF_SIZE, count, tmp);
-		buff[fd] == NULL ? (buff[fd] = ft_strdup(tmp)) : (buff[fd] = ft_strjoin(buff, tmp));
-//		printf("buff str = [%s]\n", buff);
-/*		if ((next = ft_strchr(buff, 10)) != NULL)
-		{
-			printf("newline found in buff!\n");
+		buff == NULL ? (buff = ft_strdup(tmp)) : (buff = ft_strjoin(buff, tmp));
+		if ((next = ft_strchr(buff, 10)) != NULL)
 			break;
-		}
-*/	//	ft_strclr(tmp);		//clear tmp		//DONT PUT DIFF TYPES AS INPUT
-//		read_attempt++;
 	}
-	next = ft_strchr(buff[fd], 10);
-//	printf("---------out while------------------COUNT IS %i\n", count);
-	printf("before moving ptrs buff = [%s] next = [%s]\n", buff[fd], next);
-	(next != NULL) ? (*line = ft_cpychr(buff[fd], 10, ft_ptrlen(buff[fd], next, ft_strlen(buff[fd]))))
-		:(*line = ft_strdup(buff[fd]));
-	(next != NULL) ? (buff[fd] = next + 1) : (buff[fd] = next);
-	if (buff[fd] == NULL)
+	(next != NULL) ? (*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff))))
+		: (next = ft_strchr(buff, 10));
+	(next != NULL) ? (buff = next + 1) : (buff = next);
+	if (buff == NULL)
 	{
 		*line = NULL;
-		free(head[fd]);
+	//	head = &buff[0];
+	//	free(&head);
 		return (0);
 	}
-//	printf("reading over buff = [%s] next = [%s]\n", buff, next);
-//	printf("-----------------------------GNL saved line = [%s]\n", *line);
-//	printf("finished reading inside GNL\n");
 	return (1);
 }

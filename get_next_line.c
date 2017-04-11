@@ -6,7 +6,7 @@
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 17:23:03 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/10 20:28:51 by wfung            ###   ########.fr       */
+/*   Updated: 2017/04/11 08:20:39 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,22 @@ int		get_next_line(const int fd, char **line)
 {
 	int				count;
 	char			tmp[BUFF_SIZE + 1];
-	static char		*buff;
+	static char		buff[1000];
 //	int				read_attempt;	//for testing purposes
 	char			*next;
+	char			*head;
 
 	next = NULL;
 	if (fd < 0 || !line)//|| !(tmp = ft_memalloc((size_t)BUFF_SIZE + 1)))
 		return (-1);
 //	read_attempt = 1;
 //	printf("inside GNL; about to start\n");
+	head[fd] = buff[fd];
 	while ((count = read(fd, tmp, BUFF_SIZE)) > 0)	//count bytes read
 	{												//might be diff vs BUFF_SIZE
 		tmp[count] = '\0';
 //		printf("read_attempt = [%i] BUFF_SIZE = [%i] count = [%i]\ntmp = [%s]\n", read_attempt, BUFF_SIZE, count, tmp);
-		buff == NULL ? (buff = ft_strdup(tmp)) : (buff = ft_strjoin(buff, tmp));
-		if (!buff)
-		{
-			free(buff);
-			return (-1);
-		}
+		buff[fd] == NULL ? (buff[fd] = ft_strdup(tmp)) : (buff[fd] = ft_strjoin(buff, tmp));
 //		printf("buff str = [%s]\n", buff);
 /*		if ((next = ft_strchr(buff, 10)) != NULL)
 		{
@@ -84,21 +81,16 @@ int		get_next_line(const int fd, char **line)
 */	//	ft_strclr(tmp);		//clear tmp		//DONT PUT DIFF TYPES AS INPUT
 //		read_attempt++;
 	}
-	next = ft_strchr(buff, 10);
+	next = ft_strchr(buff[fd], 10);
 //	printf("---------out while------------------COUNT IS %i\n", count);
-	printf("before moving ptrs buff = [%s] next = [%s]\n", buff, next);
-	free(buff);
-	(next != NULL) ? (*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff))))
-		:(*line = ft_strdup(buff));
-	if (!*line)
-	{
-		free(*line);
-		return (-1);
-	}
-	(next != NULL) ? (buff = next + 1) : (buff = next);
-	if (buff == NULL)
+	printf("before moving ptrs buff = [%s] next = [%s]\n", buff[fd], next);
+	(next != NULL) ? (*line = ft_cpychr(buff[fd], 10, ft_ptrlen(buff[fd], next, ft_strlen(buff[fd]))))
+		:(*line = ft_strdup(buff[fd]));
+	(next != NULL) ? (buff[fd] = next + 1) : (buff[fd] = next);
+	if (buff[fd] == NULL)
 	{
 		*line = NULL;
+		free(head[fd]);
 		return (0);
 	}
 //	printf("reading over buff = [%s] next = [%s]\n", buff, next);

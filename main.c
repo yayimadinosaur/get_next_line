@@ -10,16 +10,19 @@ int		main(int ac, char **av)
 	if (ac == 2)		//handling only 1 fd
 	{
 		fd_test = open(av[1], O_RDONLY);
+	//	printf("START GNL BUFF SIZE = %i\n", BUFF_SIZE);
 		while (get_next_line(fd_test, &line) != 0)
 		{
-			printf("getnextline call # = [%i]\n", gnl_call);
+		//	printf("getnextline call # = [%i]\n", gnl_call);
 			if (gnl_call == 6)
 				break;
-			printf("-----------------------------main line str = [%s]\n", line);
+		//	printf("-----------------------------main line str = [%s]\n", line);
+		printf("main %s", line);
+		printf("\n");
 			gnl_call++;
 		}
-		printf("----------------------GNL SUCCESS! last str = [%s]\n", line);
-		printf("main - finished reading GNL == 0\n");
+		//printf("----------------------GNL SUCCESS! last str = [%s]\n", line);
+		//printf("main - finished reading GNL == 0\n");
 		close(fd_test);
 	/*	while (line != 0)	//print store
 		{

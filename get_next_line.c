@@ -6,7 +6,7 @@
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 17:23:03 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/11 15:50:31 by wfung            ###   ########.fr       */
+/*   Updated: 2017/04/11 19:30:19 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int		get_next_line(const int fd, char **line)
 	char			tmp[BUFF_SIZE + 1];
 	static char		*buff;
 	char			*next;
-//	char			*head;
 
 	next = NULL;
 	if (fd < 0 || !line || BUFF_SIZE <= 0)
@@ -67,14 +66,9 @@ int		get_next_line(const int fd, char **line)
 			break;
 	}
 	(next != NULL) ? (*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff))))
-		: (next = ft_strchr(buff, 10));
-	(next != NULL) ? (buff = next + 1) : (buff = next);
-	if (buff == NULL)
-	{
-		*line = NULL;
-	//	head = &buff[0];
-	//	free(&head);
-		return (0);
-	}
-	return (1);
+		: (*line = ft_strdup(buff));
+	buff = ft_memmove(, buff, ft_strlen(buff) - ft_strlen(line));
+	if (*line)
+		return (1);
+	return (0);
 }

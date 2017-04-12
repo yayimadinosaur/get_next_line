@@ -1,45 +1,45 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rschramm <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/29 13:36:48 by rschramm          #+#    #+#             */
-/*   Updated: 2017/03/20 10:25:26 by rschramm         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line.h"
-#include <stdio.h>
 
-int		main(int argc, char **argv)
+//warren main
+//
+int		main(int ac, char **av)
 {
+	int		fd_test;
 	char	*line;
-	int		fd;
-	int		res;
-	int		num;
+	int		gnl_call;
 
-	res = 0;
-	num = 0;
-	line = NULL;
-	argc = 0;
-	fd = open(argv[1], O_RDONLY);
-	
-	if (fd > 0)
-		while ((res = get_next_line(fd, &line)) > 0)
-		{
-			printf("[Ret: %d, # of Line: %d, FD: %d] %s\n", res, ++num, fd, line);
-			ft_strdel(&line);
-		}
-	ft_strdel(&line);
-	printf("[Ret: %d, # of Line: %d, FD: %d] %s\n", res, ++num, fd, line);
-	if ((fd > 0 && (close(fd) == -1 || res != 0)) || fd < 0)
+	gnl_call = 1;
+	if (ac == 2)		//handling only 1 fd
 	{
-		if (!line)
-			write(1, "error\n", 6);
-		return (1);
+		fd_test = open(av[1], O_RDONLY);
+	//	printf("START GNL BUFF SIZE = %i\n", BUFF_SIZE);
+		while (get_next_line(fd_test, &line) != 0)
+		{
+		//	printf("getnextline call # = [%i]\n", gnl_call);
+			if (gnl_call == 6)
+				break;
+		//	printf("-----------------------------main line str = [%s]\n", line);
+		printf("main GNL call %i %s", gnl_call, line);
+		printf("\n");
+			gnl_call++;
+		}
+		//printf("----------------------GNL SUCCESS! last str = [%s]\n", line);
+		//printf("main - finished reading GNL == 0\n");
+		close(fd_test);
+	/*	while (line != 0)	//print store
+		{
+			printf("testing line str = %s\n", line);
+			i++;
+		}
+		while (i > -1)			//free stores
+		{
+			free(store);
+			i--;
+		}
+*/
+		free(line);
 	}
-	printf ("/* Ret == 1 ; read line\n   Ret == 0 ; end of line(finish) */\n");
+	else
+		printf("not enough args\n");
 	return (0);
 }

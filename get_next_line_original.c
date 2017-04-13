@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_original.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 17:23:03 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/13 16:06:12 by wfung            ###   ########.fr       */
+/*   Updated: 2017/04/13 16:57:48 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,34 +64,29 @@ int		get_next_line(const int fd, char **line)
 		return (-1);
 	while ((count = read(fd, tmp, BUFF_SIZE)) > 0)
 	{
-//		printf("while count = [%i]\n", count);
 		tmp[count] = '\0';
-	//	printf("tmp = [%s]\n", tmp);
 		buff == NULL ? (buff = ft_strdup(tmp)) : (buff = ft_strjoin(buff, tmp));
 		if ((next = ft_strchr(buff, 10)) != NULL)
 			break;
 	}
-//	printf("count = [%i] buff = [%s]\n", count, buff);
 	if (buff == NULL)
-	{
-	//	*line = NULL;
 		return (0);
-	}
-	if (count == 0)
-		(next = ft_strchr(buff, 10));
+	if (count == 0 && (next = ft_strchr(buff, 10)) != NULL)
+	/*buff != NULL  OR   ft_strchr(buff, 10) == NULL*/
+//nn		(next = ft_strchr(buff, 10));
 	(next != NULL) ? (*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff))))
 		: (*line = ft_strdup(buff));
-//	printf("buff now [%s]\n", buff);
-	if (ft_strlen(buff) > (size_t)ft_ptrlen(buff, next, ft_strlen(buff)))
-	{
+	if (ft_strlen(buff) > (size_t)ft_ptrlen(buff, next, ft_strlen(buff)) + 1)
 			buff = next + 1;
-//			printf("buff = [%s]\n", buff);
-	}
 	else
-	{
-		//return (0);
 		buff = NULL;
-//		printf("one more time\n");
-	}
 	return (1);
 }
+/*
+if (count < BUFF_SIZE && count > 0)	
+	next = ft_strchr(buff, 10);
+	if (next == NULL)
+		line = ft_strdup(buff)
+if (count <= 0)	//if -1 closed(fd) if 0 = eof
+	return (0);
+	*/

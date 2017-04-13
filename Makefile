@@ -6,7 +6,7 @@
 #    By: wfung <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/04/11 08:16:24 by wfung             #+#    #+#              #
-#    Updated: 2017/04/11 08:16:25 by wfung            ###   ########.fr        #
+#    Updated: 2017/04/13 16:20:35 by wfung            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC		=	gcc
 FLAG	=	-Wall -Wextra -Werror
 
 SRCS	= 	main.c \
-			get_next_line.c
+			get_next_line_original.c
 	   		
 OBJ =		${SRCS:.c=.o}
 

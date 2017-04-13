@@ -6,7 +6,7 @@
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 17:23:03 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/11 20:21:29 by wfung            ###   ########.fr       */
+/*   Updated: 2017/04/12 18:43:22 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,23 @@ int		get_next_line(const int fd, char **line)
 		if ((next = ft_strchr(buff, 10)) != NULL)
 			break;
 	}
-	printf("buff read = %s\n", buff);
+	if (buff == NULL)
+		return (0);
+	if (count == 0)
+		(next = ft_strchr(buff, 10));
 	(next != NULL) ? (*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff))))
 		: (*line = ft_strdup(buff));
-	printf("*line = %s\n", *line);
-	next = ft_memmove(next, buff, ft_strlen(buff));
-	buff = next;
-	if (*line)
-		return (1);
-	return (0);
+//	printf("buff now [%s]\n", buff);
+	if (ft_strlen(buff) > (size_t)ft_ptrlen(buff, next, ft_strlen(buff)))
+	{
+			buff = next + 1;
+//			printf("buff = [%s]\n", buff);
+	}
+	else
+	{
+		return (0);
+	//	buff = NULL;
+//		printf("one more time\n");
+	}
+	return (1);
 }

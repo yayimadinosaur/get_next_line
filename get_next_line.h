@@ -1,7 +1,7 @@
 #ifndef get_nextline_h
 # define get_nextline_h
 
-#define BUFF_SIZE 2
+#define BUFF_SIZE 100
 
 #include <stdio.h>
 
@@ -31,6 +31,7 @@ char	*ft_strstr(const char *bif, const char *little);
 void	ft_strdel(char **as);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
+void	ft_bzero(void *s, size_t n);
 /*
  *	custom functions
  */

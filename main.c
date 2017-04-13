@@ -13,17 +13,17 @@ int		main(int ac, char **av)
 	{
 		fd_test = open(av[1], O_RDONLY);
 	//	printf("START GNL BUFF SIZE = %i\n", BUFF_SIZE);
-		while (get_next_line(fd_test, &line) != 0)
+		while (get_next_line(fd_test, &line) > 0)
 		{
 		//	printf("getnextline call # = [%i]\n", gnl_call);
 			if (gnl_call == 6)
 				break;
 		//	printf("-----------------------------main line str = [%s]\n", line);
-		printf("main GNL call %i %s", gnl_call, line);
+		printf("main GNL call %i ret 1 [%s]", gnl_call, line);
 		printf("\n");
 			gnl_call++;
 		}
-		//printf("----------------------GNL SUCCESS! last str = [%s]\n", line);
+		printf("----------------------ret 0 last str = [%s]\n", line);
 		//printf("main - finished reading GNL == 0\n");
 		close(fd_test);
 	/*	while (line != 0)	//print store

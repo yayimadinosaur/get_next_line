@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wung <marvin@42.r>                       +#+  +:+       +#+        */
+/*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Create: 2017/04/13 16:10:54 by wung             #+#    #+#             */
-/*   Upate: 2017/04/14 17:42:04 by wung            ###   ########.r       */
+/*   Created: 2017/04/17 15:38:21 by wfung             #+#    #+#             */
+/*   Updated: 2017/04/17 15:57:52 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		ft_ptrlen(char *p1, char *p2, int len)
 	return (i);
 }
 
-char	*ft_cpychr(char *str, int c, int len)
+char		*ft_cpychr(char *str, int c, int len)
 {
 	int		i;
 	char	*b;
@@ -54,7 +54,7 @@ char	*ft_cpychr(char *str, int c, int len)
 	return (b);
 }
 
-int		get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
 	static char		*b;
 	char			*hold;
@@ -62,35 +62,23 @@ int		get_next_line(const int fd, char **line)
 	char			tmp[BUFF_SIZE + 1];
 	int				count;
 
-	int read_attempt;
-	read_attempt = 1;
-
 	next = NULL;
 	hold = NULL;
 	if (fd < 0 || BUFF_SIZE <= 0 || read(fd, tmp, 0) < 0)
 		return (-1);
-//	printf("gnl newest start\n");
 	while ((count = read(fd, tmp, BUFF_SIZE)) > 0)
 	{
-	//	printf("while rea_attempt = [%i]\n", read_attempt);
 		tmp[count] = '\0';
 		b == NULL ? (b = ft_strdup(tmp)) : (b = ft_strjoin(b, tmp));
-	//	printf("b = [%s]\n", b);
-		read_attempt++;
 	}
-	next = ft_strchr(b, 10) != NULL ? (*line = ft_cpychr(b, 10, ft_ptrlen(b, next, ft_strlen(b))))
+	(next = ft_strchr(b, 10)) != NULL ? (*line = ft_cpychr(b, 10, ft_ptrlen(b, next, ft_strlen(b))))
 		: (*line = ft_strdup(b));
-	printf("*line = [%s]\n", *line);
-//	if (ft_memcmp(*line, b, ft_strlen(*line)) == 0)
-//		return (0);
-	if (ft_strlen(b) > ft_strlen(*line) + 1)
+	if (ft_strlen(b) > ft_strlen(*line))
 	{
-		hold = ft_strsub(b, ft_ptrlen(b, next, ft_strlen(b)), ft_strlen(b - ft_strlen(*line)));
-		printf("hold = [%s]\n", hold);
+		hold = ft_strsub(b, ft_ptrlen(b, next + 1, ft_strlen(b)), ft_strlen(b) - ft_strlen(*line));
+		free(b);
 		b = ft_strdup(hold);
-		printf("b = [%s]\n", b);
 		free(hold);
-		printf("hold freed? = [%s]\n", hold);
 		return (1);
 	}
 	return (0);

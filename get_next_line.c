@@ -6,7 +6,7 @@
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 15:38:21 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/17 19:39:19 by wfung            ###   ########.fr       */
+/*   Updated: 2017/04/17 20:45:55 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,15 @@ int		ft_lenchk(char **s1, char **s2, char *ptr)	//&b, *line, next;
 		else if (ptr == NULL)
 			*s2 = ft_strdup(*s1);
 		hold = ft_strsub(*s1, ft_ptrlen(*s1, ptr + 1, ft_strlen(*s1)), ft_strlen(*s1) - ft_strlen(*s2));
-		free(s1);
+	//	free(s1);
 		*s1 = NULL;
 		*s1 = ft_strdup(hold);
 		free(hold);
 		hold = NULL;
 		return (1);
 	}
+	free(*s1);
+	*s1 = NULL;
 	return (0);
 }
 
@@ -92,14 +94,16 @@ int				get_next_line(const int fd, char **line)
 	char			*next;
 	char			tmp[BUFF_SIZE + 1];
 	int				count;
+	int				num;
 
 	next = NULL;
-	if (fd < 0 || BUFF_SIZE <= 0 || read(fd, tmp, 0) < 0)
+	if (fd < 0 || BUFF_SIZE <= 0 || read(fd, tmp, 0) < 0 || !line)
 		return (-1);
 	while ((count = read(fd, tmp, BUFF_SIZE)) > 0)
 	{
 		tmp[count] = '\0';
 		b == NULL ? (b = ft_strdup(tmp)) : (b = ft_strjoin(b, tmp));
+	//	ft_bzero(tmp, count);
 	}
 /*	(next = ft_strchr(b, 10)) != NULL ? (*line = ft_cpychr(b, 10, ft_ptrlen(b, next, ft_strlen(b))))
 		: (*line = ft_strdup(b));
@@ -112,5 +116,10 @@ int				get_next_line(const int fd, char **line)
 		return (1);
 	}
 	return (0);
-*/	return (ft_lenchk(&b, line, next));
+*/	num = ft_lenchk(&b, line, next);
+/*	if (num == 0)
+	{
+		free(b);
+	}
+*/	return (num);
 }

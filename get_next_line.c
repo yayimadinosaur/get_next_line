@@ -6,7 +6,7 @@
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 15:38:21 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/17 20:45:55 by wfung            ###   ########.fr       */
+/*   Updated: 2017/04/18 08:47:35 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,32 @@ int		ft_lenchk(char **s1, char **s2, char *ptr)	//&b, *line, next;
 	{
 		ptr = ft_strchr(*s1, 10);
 		if (ptr != NULL)
+		{
 			*s2 = ft_cpychr(*s1, 10, ft_ptrlen(*s1, ptr, ft_strlen(*s1)));
-		else if (ptr == NULL)
-			*s2 = ft_strdup(*s1);
-		hold = ft_strsub(*s1, ft_ptrlen(*s1, ptr + 1, ft_strlen(*s1)), ft_strlen(*s1) - ft_strlen(*s2));
-	//	free(s1);
+			if (!*s2)
+				return (-1);
+			hold = ft_strsub(*s1, ft_ptrlen(*s1, ptr + 1, ft_strlen(*s1)), ft_strlen(*s1) - ft_strlen(*s2));
+			if (!hold)
+				return (-1);
 		*s1 = NULL;
 		*s1 = ft_strdup(hold);
+		if (!*s1)
+			return (-1);
 		free(hold);
 		hold = NULL;
+		}
+		else if (ptr == NULL)
+		{
+			*s2 = ft_strdup(*s1);
+			if (!*s2)
+				return (-1);
+			*s1 = NULL;
+	//	free(s1);
+	//	*s1 = NULL;
+		}
 		return (1);
 	}
-	free(*s1);
-	*s1 = NULL;
+//	*s2 = NULL;
 	return (0);
 }
 
@@ -92,9 +105,10 @@ int				get_next_line(const int fd, char **line)
 {
 	static char		*b;
 	char			*next;
+	char			*h;
 	char			tmp[BUFF_SIZE + 1];
 	int				count;
-	int				num;
+//	int				num;
 
 	next = NULL;
 	if (fd < 0 || BUFF_SIZE <= 0 || read(fd, tmp, 0) < 0 || !line)
@@ -102,24 +116,38 @@ int				get_next_line(const int fd, char **line)
 	while ((count = read(fd, tmp, BUFF_SIZE)) > 0)
 	{
 		tmp[count] = '\0';
-		b == NULL ? (b = ft_strdup(tmp)) : (b = ft_strjoin(b, tmp));
-	//	ft_bzero(tmp, count);
-	}
-/*	(next = ft_strchr(b, 10)) != NULL ? (*line = ft_cpychr(b, 10, ft_ptrlen(b, next, ft_strlen(b))))
-		: (*line = ft_strdup(b));
-	if (ft_strlen(b) > ft_strlen(*line))
-	{
-		hold = ft_strsub(b, ft_ptrlen(b, next + 1, ft_strlen(b)), ft_strlen(b) - ft_strlen(*line));
+		if (h == NULL)
+		{
+			h = ft_strdup(tmp);
+	//		printf("dup h = [%s]\n", h);
+		}
+		else
+		{
+			h = ft_strjoin(b, tmp);
+		//	free(b);
+		//	b = h;
+		//	free(h);
+		//	h = NULL;
+	//		printf("join b = [%s]\n", h);
+		}
+		b = ft_strdup(h);
+/*		b == NULL ? (b = ft_strdup(tmp)) : (h = ft_strjoin(b, tmp));
 		free(b);
-		b = ft_strdup(hold);
-		free(hold);
-		return (1);
+		b = h;
+		free(h);
+*/		if (ft_strchr(h, 10) != NULL)
+			break;
 	}
-	return (0);
-*/	num = ft_lenchk(&b, line, next);
+	if (!h)
+		free(h);
+//	printf("break while b = [%s]\n", b);
+//	return (ft_lenchk(&b, line, next));
+	return (b && ft_lenchk(&b, line, next));
+//	free(b);
+//	b = NULL;
 /*	if (num == 0)
 	{
 		free(b);
 	}
-*/	return (num);
+*///	return (num);
 }

@@ -6,7 +6,7 @@
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/17 15:38:21 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/17 19:34:08 by wfung            ###   ########.fr       */
+/*   Updated: 2017/04/17 19:39:19 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,6 @@ int		ft_lenchk(char **s1, char **s2, char *ptr)	//&b, *line, next;
 	char	*hold;
 
 	hold = NULL;
-/*	(next = ft_strchr(b, 10)) != NULL ? (*line = ft_cpychr(b, 10, ft_ptrlen(b, next, ft_strlen(b)))) : (*line = ft_strdup(b));
- */
-/*	if (ft_strlen(*s1) > ft_strlen(*s2))
-	{
-		hold = ft_strsub(*s1, ft_ptrlen(*s1, ptr + 1, ft_strlen(*s1)), ft_strlen(*s1) - ft_strlen(*s2));
-		free(*s1);
-		*s1 = NULL;
-		*s1 = ft_strdup(hold);
-		free(hold);
-		hold = NULL;
-		return (1);
-	}
-*/	
 	if (ft_strlen(*s1) > 0)
 	{
 		ptr = ft_strchr(*s1, 10);

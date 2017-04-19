@@ -5,149 +5,118 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/17 15:38:21 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/18 08:47:35 by wfung            ###   ########.fr       */
+/*   Created: 2017/04/05 17:23:03 by wfung             #+#    #+#             */
+/*   Updated: 2017/04/18 19:19:10 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//newest
-//added new function ft_lenchk (to fit norm)
+//original GNL
 
-/*	if (ft_strlen(b) > ft_strlen(*line))
-	{
-		hold = ft_strsub(b, ft_ptrlen(b, next + 1, ft_strlen(b)), ft_strlen(b) - ft_strlen(*line));
-		free(b);
-		b = ft_strdup(hold);
-		free(hold);
-		return (1);
-	}
-*/
-
-int		ft_lenchk(char **s1, char **s2, char *ptr)	//&b, *line, next;
+int		ft_lenchk(char **s1, char **s2, char *ptr) //buff, line, next
 {
 	char	*hold;
 
 	hold = NULL;
-	if (ft_strlen(*s1) > 0)
+	if (*s1 && ft_strlen(*s1) > 0)
 	{
 		ptr = ft_strchr(*s1, 10);
 		if (ptr != NULL)
 		{
 			*s2 = ft_cpychr(*s1, 10, ft_ptrlen(*s1, ptr, ft_strlen(*s1)));
-			if (!*s2)
-				return (-1);
 			hold = ft_strsub(*s1, ft_ptrlen(*s1, ptr + 1, ft_strlen(*s1)), ft_strlen(*s1) - ft_strlen(*s2));
-			if (!hold)
-				return (-1);
-		*s1 = NULL;
-		*s1 = ft_strdup(hold);
-		if (!*s1)
-			return (-1);
-		free(hold);
-		hold = NULL;
+		//	*s1 = NULL;
+		//	*s1 = ft_strdup(hold);
+		//	free(hold);
+			*s1 = hold;
+		//	hold = NULL;
 		}
 		else if (ptr == NULL)
 		{
 			*s2 = ft_strdup(*s1);
-			if (!*s2)
-				return (-1);
 			*s1 = NULL;
-	//	free(s1);
-	//	*s1 = NULL;
 		}
 		return (1);
 	}
-//	*s2 = NULL;
 	return (0);
 }
-
 
 int		ft_ptrlen(char *p1, char *p2, int len)
 {
 	int		i;
-	char	*b;
+	char	*buff;
 
 	i = 0;
-	b = p1;
+	buff = p1;
 	if (len == 0)
 		return (0);
-	while (b != p2 && i < len)
+	while (buff != p2 && i < len)
 	{
-		b++;
+		buff++;
 		i++;
 	}
 	return (i);
 }
 
-char		*ft_cpychr(char *str, int c, int len)
+char	*ft_cpychr(char *str, int c, int len)
 {
 	int		i;
-	char	*b;
+	char	*buff;
 
 	i = 0;
 	if (str == NULL)
 		return (NULL);
-	if (!(b = (char*)malloc(sizeof(char) * (len + 1))))
+	if (!(buff = (char*)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
-	ft_bzero(b, len + 1);
-	while (str[i] != (char)c && i < len)
+	ft_bzero(buff, len + 1);
+	while (str[i] != (char)c && i < len + 1)
 	{
-		b[i] = str[i];
+		buff[i] = str[i];
 		i++;
 	}
-	b[i] = '\0';
-	return (b);
+	buff[i] = '\0';
+	return (buff);
 }
 
-int				get_next_line(const int fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
-	static char		*b;
-	char			*next;
-	char			*h;
-	char			tmp[BUFF_SIZE + 1];
 	int				count;
-//	int				num;
+	char			tmp[BUFF_SIZE + 1];
+	static char		*buff;
+	char			*next;
+	char			*hold;
 
 	next = NULL;
-	if (fd < 0 || BUFF_SIZE <= 0 || read(fd, tmp, 0) < 0 || !line)
+	hold = NULL;
+//	count = 0;
+	if (fd < 0 || !line || read(fd, tmp, 0) < 0)
 		return (-1);
 	while ((count = read(fd, tmp, BUFF_SIZE)) > 0)
 	{
 		tmp[count] = '\0';
-		if (h == NULL)
+//		buff == NULL ? (buff = ft_strdup(tmp)) : (hold = ft_strjoin(buff, tmp));
+		if (buff == NULL)
 		{
-			h = ft_strdup(tmp);
-	//		printf("dup h = [%s]\n", h);
+			buff = ft_strdup(tmp);
 		}
 		else
 		{
-			h = ft_strjoin(b, tmp);
-		//	free(b);
-		//	b = h;
-		//	free(h);
-		//	h = NULL;
-	//		printf("join b = [%s]\n", h);
+			hold = ft_strjoin(buff, tmp);
+			free(buff);
+			buff = hold;
 		}
-		b = ft_strdup(h);
-/*		b == NULL ? (b = ft_strdup(tmp)) : (h = ft_strjoin(b, tmp));
-		free(b);
-		b = h;
-		free(h);
-*/		if (ft_strchr(h, 10) != NULL)
+		if ((ft_strchr(tmp, 10)) != NULL)
 			break;
 	}
-	if (!h)
-		free(h);
-//	printf("break while b = [%s]\n", b);
-//	return (ft_lenchk(&b, line, next));
-	return (b && ft_lenchk(&b, line, next));
-//	free(b);
-//	b = NULL;
-/*	if (num == 0)
-	{
-		free(b);
-	}
-*///	return (num);
+	return (ft_lenchk(&buff, line, next));
+//	if (buff == NULL)
+//		return (0);
+//	if (count == 0)
+//		next = ft_strchr(buff, 10);
+//	(next != NULL) ? (*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff))))
+//		: (*line = ft_strdup(buff));
+//	(ft_strlen(buff) > (size_t)ft_ptrlen(buff, next, ft_strlen(buff)) + 1) ?	
+//			(buff = next + 1) : (buff = NULL);
+//	return (1);
 }

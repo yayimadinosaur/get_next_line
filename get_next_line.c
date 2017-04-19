@@ -6,15 +6,13 @@
 /*   By: wfung <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/05 17:23:03 by wfung             #+#    #+#             */
-/*   Updated: 2017/04/18 19:19:10 by wfung            ###   ########.fr       */
+/*   Updated: 2017/04/18 19:39:21 by wfung            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-//original GNL
-
-int		ft_lenchk(char **s1, char **s2, char *ptr) //buff, line, next
+static int		ft_lenchk(char **s1, char **s2, char *ptr)
 {
 	char	*hold;
 
@@ -25,12 +23,9 @@ int		ft_lenchk(char **s1, char **s2, char *ptr) //buff, line, next
 		if (ptr != NULL)
 		{
 			*s2 = ft_cpychr(*s1, 10, ft_ptrlen(*s1, ptr, ft_strlen(*s1)));
-			hold = ft_strsub(*s1, ft_ptrlen(*s1, ptr + 1, ft_strlen(*s1)), ft_strlen(*s1) - ft_strlen(*s2));
-		//	*s1 = NULL;
-		//	*s1 = ft_strdup(hold);
-		//	free(hold);
+			hold = ft_strsub(*s1, ft_ptrlen(*s1, ptr + 1, ft_strlen(*s1)),
+					ft_strlen(*s1) - ft_strlen(*s2));
 			*s1 = hold;
-		//	hold = NULL;
 		}
 		else if (ptr == NULL)
 		{
@@ -42,7 +37,7 @@ int		ft_lenchk(char **s1, char **s2, char *ptr) //buff, line, next
 	return (0);
 }
 
-int		ft_ptrlen(char *p1, char *p2, int len)
+static int		ft_ptrlen(char *p1, char *p2, int len)
 {
 	int		i;
 	char	*buff;
@@ -59,7 +54,7 @@ int		ft_ptrlen(char *p1, char *p2, int len)
 	return (i);
 }
 
-char	*ft_cpychr(char *str, int c, int len)
+static char		*ft_cpychr(char *str, int c, int len)
 {
 	int		i;
 	char	*buff;
@@ -79,7 +74,7 @@ char	*ft_cpychr(char *str, int c, int len)
 	return (buff);
 }
 
-int		get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
 	int				count;
 	char			tmp[BUFF_SIZE + 1];
@@ -89,17 +84,13 @@ int		get_next_line(const int fd, char **line)
 
 	next = NULL;
 	hold = NULL;
-//	count = 0;
 	if (fd < 0 || !line || read(fd, tmp, 0) < 0)
 		return (-1);
 	while ((count = read(fd, tmp, BUFF_SIZE)) > 0)
 	{
 		tmp[count] = '\0';
-//		buff == NULL ? (buff = ft_strdup(tmp)) : (hold = ft_strjoin(buff, tmp));
 		if (buff == NULL)
-		{
 			buff = ft_strdup(tmp);
-		}
 		else
 		{
 			hold = ft_strjoin(buff, tmp);
@@ -107,16 +98,7 @@ int		get_next_line(const int fd, char **line)
 			buff = hold;
 		}
 		if ((ft_strchr(tmp, 10)) != NULL)
-			break;
+			break ;
 	}
 	return (ft_lenchk(&buff, line, next));
-//	if (buff == NULL)
-//		return (0);
-//	if (count == 0)
-//		next = ft_strchr(buff, 10);
-//	(next != NULL) ? (*line = ft_cpychr(buff, 10, ft_ptrlen(buff, next, ft_strlen(buff))))
-//		: (*line = ft_strdup(buff));
-//	(ft_strlen(buff) > (size_t)ft_ptrlen(buff, next, ft_strlen(buff)) + 1) ?	
-//			(buff = next + 1) : (buff = NULL);
-//	return (1);
 }
